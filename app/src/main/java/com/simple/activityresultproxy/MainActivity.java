@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 
@@ -18,6 +19,7 @@ public class MainActivity extends AppCompatActivity {
     private TextView mTvRequestCode;
     private TextView mTvResultCode;
     private TextView mTvData;
+    private TextView mTvUser;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,32 +29,40 @@ public class MainActivity extends AppCompatActivity {
         mTvRequestCode = findViewById(R.id.tv_requestCode);
         mTvResultCode = findViewById(R.id.tv_resuleCode);
         mTvData = findViewById(R.id.tv_data);
+        mTvUser = findViewById(R.id.tv_user);
     }
 
     public void go(View view) {
+        Intent intent = new Intent(MainActivity.this, ToActivity.class);
+        intent.putExtra("name","simple");
+
         ARProxy.with(MainActivity.this)
-                .setToActivity(ToActivity.class)
+                .setIntent(intent)
                 .setRequestCode(REQUEST_CODE)
                 .start(new OnResultListener() {
                     @Override
                     public void onActivityResult(int requestCode, int resultCode, Intent data) {
 
-                        if (requestCode != REQUEST_CODE || resultCode != Activity.RESULT_OK ||
-                                data == null) return;
-                        mTvRequestCode.setText(String.format("requestCode : %s", requestCode));
-                        mTvResultCode.setText(String.format("resultCode  :%s", resultCode));
-
-                        Bundle extras = data.getExtras();
-                        mTvData.setText(String.format("data : %s-%s", extras.getString("username"),
-                                extras.getBoolean("isLogin")));
-
                     }
                 });
     }
 
-//    @Override
-//    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-//        super.onActivityResult(requestCode, resultCode, data);
+//      if (requestCode != REQUEST_CODE || resultCode != Activity.RESULT_OK ||
+//    data == null) return;
+//                        mTvRequestCode.setText(String.format("requestCode : %s", requestCode));
+//                        mTvResultCode.setText(String.format("resultCode  :%s", resultCode));
 //
-//    }
+//    Bundle extras = data.getExtras();
+//                        mTvData.setText(String.format("data : %s-%s", extras.getString("username"),
+//                                extras.getBoolean("isLogin")));
+
+    public void login(View view) {
+        LoginHelper.isLogin(MainActivity.this, new LoginHelper.OnLoginListener() {
+            @Override
+            public void onLogin(UserBean user) {
+                mTvUser.setText(String.format("user : %s - %s", user.getName(), user.getPassword()));
+            }
+        });
+    }
+
 }
