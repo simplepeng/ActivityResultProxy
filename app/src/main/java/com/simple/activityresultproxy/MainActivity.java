@@ -34,7 +34,7 @@ public class MainActivity extends AppCompatActivity {
 
     public void go(View view) {
         Intent intent = new Intent(MainActivity.this, ToActivity.class);
-        intent.putExtra("name","simple");
+        intent.putExtra("name", "simple");
 
         ARProxy.with(MainActivity.this)
                 .setIntent(intent)
@@ -42,19 +42,18 @@ public class MainActivity extends AppCompatActivity {
                 .start(new OnResultListener() {
                     @Override
                     public void onActivityResult(int requestCode, int resultCode, Intent data) {
+                        if (requestCode != REQUEST_CODE || resultCode != Activity.RESULT_OK ||
+                                data == null) return;
+                        mTvRequestCode.setText(String.format("requestCode : %s", requestCode));
+                        mTvResultCode.setText(String.format("resultCode  :%s", resultCode));
 
+                        Bundle extras = data.getExtras();
+                        mTvData.setText(String.format("data : %s-%s", extras.getString("username"),
+                                extras.getBoolean("isLogin")));
                     }
                 });
     }
 
-//      if (requestCode != REQUEST_CODE || resultCode != Activity.RESULT_OK ||
-//    data == null) return;
-//                        mTvRequestCode.setText(String.format("requestCode : %s", requestCode));
-//                        mTvResultCode.setText(String.format("resultCode  :%s", resultCode));
-//
-//    Bundle extras = data.getExtras();
-//                        mTvData.setText(String.format("data : %s-%s", extras.getString("username"),
-//                                extras.getBoolean("isLogin")));
 
     public void login(View view) {
         LoginHelper.isLogin(MainActivity.this, new LoginHelper.OnLoginListener() {
