@@ -5,7 +5,7 @@
 ## 引入依赖
 
 ```groovy
-
+implementation 'com.simple:ActivityResultProxy:1.0.2'
 ```
 
 ## 使用方法

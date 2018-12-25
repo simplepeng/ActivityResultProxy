@@ -11,7 +11,6 @@ public class ARProxy {
         return new ARProxy(activity);
     }
 
-    //想了想还是只支持FragmentActivity算了
 //    public static ARProxy with(Activity activity) {
 //        return new ARProxy(activity);
 //    }
