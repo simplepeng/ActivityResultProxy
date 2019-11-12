@@ -2,18 +2,14 @@ package com.simple.proxy;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v4.app.FragmentActivity;
-import android.support.v4.app.FragmentManager;
+import androidx.fragment.app.FragmentActivity;
+import androidx.fragment.app.FragmentManager;
 
 public class ARProxy {
 
     public static ARProxy with(FragmentActivity activity) {
         return new ARProxy(activity);
     }
-
-//    public static ARProxy with(Activity activity) {
-//        return new ARProxy(activity);
-//    }
 
     private ProxyBean mBean;
 

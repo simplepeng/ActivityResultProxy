@@ -3,7 +3,7 @@ package com.simple.proxy;
 import android.content.Intent;
 import android.os.Parcel;
 import android.os.Parcelable;
-import android.support.v4.app.FragmentActivity;
+import androidx.fragment.app.FragmentActivity;
 
 public class ProxyBean implements Parcelable {
 
