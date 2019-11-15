@@ -2,8 +2,9 @@ package com.simple.activityresultproxy;
 
 import android.app.Activity;
 import android.content.Intent;
-import androidx.annotation.Nullable;
+
 import androidx.appcompat.app.AppCompatActivity;
+
 import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
@@ -36,9 +37,8 @@ public class MainActivity extends AppCompatActivity {
         intent.putExtra("name", "simple");
 
         ARProxy.with(MainActivity.this)
-                .setIntent(intent)
-                .setRequestCode(REQUEST_CODE)
-                .start(new OnResultListener() {
+                .navTo(ToActivity.class)
+                .getResult(REQUEST_CODE, new OnResultListener() {
                     @Override
                     public void onActivityResult(int requestCode, int resultCode, Intent data) {
                         if (requestCode != REQUEST_CODE || resultCode != Activity.RESULT_OK ||
