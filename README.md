@@ -1,44 +1,27 @@
 ## 简介
 
-* 这个库是一个简化`onActivityResult`写法的库
+* 这是简化Activity获取返回值startActivityForResult 写法的库
 
 ## 引入依赖
 
+* 从1.0.3版本开始使用androidx
+
 ```groovy
-implementation 'com.simple:ActivityResultProxy:1.0.2'
+implementation 'com.simple:ActivityResultProxy:1.0.3'
 ```
 
 ## 使用方法
 
-### 不传递参数方式
-
 ```java
 ARProxy.with(MainActivity.this)
-       .setToActivity(ToActivity.class)
-       .setRequestCode(REQUEST_CODE)
-       .start(new OnResultListener() {
-             @Override
-             public void onActivityResult(int requestCode, int resultCode, 
-                                                 Intent data) {
-                        
-                    }
-                });
-```
-
-### 传递参数方式
-
-```java
-Intent intent = new Intent(MainActivity.this, ToActivity.class);
-intent.putExtra("name","simple");
-
-ARProxy.with(MainActivity.this)
-       .setIntent(intent)
-       .setRequestCode(REQUEST_CODE)
-       .start(new OnResultListener() {
-             @Override
-             public void onActivityResult(int requestCode, int resultCode, 
-                                                 Intent data) {
-
+                .navTo(ToActivity.class)
+                .putExtra("name","simple")
+                .putExtra("age",26)
+                .putExtra("man",true)
+                .getResult(REQUEST_CODE, new OnResultListener() {
+                    @Override
+                    public void onActivityResult(int requestCode, int resultCode, Intent data) 										{
+                      
                     }
                 });
 ```
@@ -66,10 +49,10 @@ public class LoginHelper {
             listener.onLogin(user);
             return;
         }
+        
         ARProxy.with(activity)
-                .setToActivity(LoginActivity.class)
-                .setRequestCode(LOGIN_REQUEST_CODE)
-                .start(new OnResultListener() {
+                .navTo(LoginActivity.class)
+                .getResult(LOGIN_REQUEST_CODE, new OnResultListener() {
                     @Override
                     public void onActivityResult(int requestCode, int resultCode, Intent data) {
                         if (requestCode != LOGIN_REQUEST_CODE || resultCode != Activity.RESULT_OK
@@ -104,3 +87,7 @@ LoginHelper.isLogin(MainActivity.this, new LoginHelper.OnLoginListener() {
 
 ## 版本迭代
 
+* v1.0.3：迁移到androidx，优化调用方式
+* v1.0.2：修复bug
+* v1.0.1：增加loginHelper封装样例
+* v1.0.0：首次上传
