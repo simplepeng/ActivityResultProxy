@@ -25,6 +25,11 @@ public class ARProxy {
         return this;
     }
 
+    public ARProxy put(){
+
+        return this;
+    }
+
     public void getResult(int requestCode, OnResultListener listener) {
         if (mIntent.getComponent() == null){
             throw new NullPointerException("navTo method no call");
