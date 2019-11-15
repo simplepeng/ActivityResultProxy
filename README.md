@@ -85,6 +85,13 @@ LoginHelper.isLogin(MainActivity.this, new LoginHelper.OnLoginListener() {
 
 这样封装过，如果已经登录过就会直接调用回调接口中的`onLogin`方法，如果未登录就会跳转到登录页，并在成功登录后回调`onLogin`方法。具体例子可以查看`app`中的使用方法。
 
+## 混淆
+
+```
+-keep com.simple.proxy.** { *; }
+-keepnames class com.simple.proxy.** { *; }
+```
+
 ## 版本迭代
 
 * v1.0.3：迁移到androidx，优化调用方式
