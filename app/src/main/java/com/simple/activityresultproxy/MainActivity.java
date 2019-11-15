@@ -38,6 +38,9 @@ public class MainActivity extends AppCompatActivity {
 
         ARProxy.with(MainActivity.this)
                 .navTo(ToActivity.class)
+                .putExtra("name","simple")
+                .putExtra("age",26)
+                .putExtra("man",true)
                 .getResult(REQUEST_CODE, new OnResultListener() {
                     @Override
                     public void onActivityResult(int requestCode, int resultCode, Intent data) {
