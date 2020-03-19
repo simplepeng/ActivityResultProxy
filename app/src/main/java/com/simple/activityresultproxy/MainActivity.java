@@ -33,7 +33,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void go(View view) {
-        finish();
+//        finish();
 
         Intent intent = new Intent(MainActivity.this, ToActivity.class);
         intent.putExtra("name", "simple");

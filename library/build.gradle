@@ -20,7 +20,7 @@ publish {
     userOrg = 'simplepeng'
     groupId = 'com.simple'
     artifactId = 'ActivityResultProxy'
-    publishVersion = '1.0.3'
+    publishVersion = '1.0.4'
     desc = 'onActivityResult simplify'
     website = 'https://github.com/simplepeng/ActivityResultProxy'
 }

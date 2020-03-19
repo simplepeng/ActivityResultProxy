@@ -7,7 +7,7 @@
 * 从1.0.3版本开始使用androidx
 
 ```groovy
-implementation 'com.simple:ActivityResultProxy:1.0.3'
+implementation 'com.simple:ActivityResultProxy:1.0.4'
 ```
 
 ## 使用方法
@@ -94,6 +94,7 @@ LoginHelper.isLogin(MainActivity.this, new LoginHelper.OnLoginListener() {
 
 ## 版本迭代
 
+* v1.0.4：修复当Host Activity finished导致崩溃的bug
 * v1.0.3：迁移到androidx，优化调用方式
 * v1.0.2：修复bug
 * v1.0.1：增加loginHelper封装样例
