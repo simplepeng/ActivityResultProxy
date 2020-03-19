@@ -2,6 +2,7 @@ package com.simple.proxy;
 
 import android.content.ComponentName;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.IBinder;
 import android.os.Parcelable;
@@ -38,6 +39,12 @@ public class ARProxy {
         }
 
         final FragmentActivity withActivity = mActivity;
+        if (mActivity == null) return;
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1) {
+            if (mActivity.isDestroyed()) return;
+        }
+        if (mActivity.isFinishing()) return;
+
         FragmentManager manager = withActivity.getSupportFragmentManager();
         if (manager == null) return;
 
