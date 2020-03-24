@@ -9,13 +9,13 @@ import androidx.fragment.app.FragmentManager;
 
 public class ProxyFragment extends Fragment {
 
-    public static final String TAG = "ProxyFragment";
+    static final String TAG = "ProxyFragment";
 
     private Intent mIntent;
     private int mRequestCode;
     private OnResultListener mOnResultListener;
 
-    public ProxyFragment(Intent intent, int requestCode, OnResultListener listener) {
+    ProxyFragment(Intent intent, int requestCode, OnResultListener listener) {
         this.mIntent = intent;
         this.mRequestCode = requestCode;
         this.mOnResultListener = listener;
@@ -30,9 +30,7 @@ public class ProxyFragment extends Fragment {
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-
-        mOnResultListener.onActivityResult(requestCode, resultCode, data);
+//        super.onActivityResult(requestCode, resultCode, data);
 
         FragmentManager manager = getFragmentManager();
         if (manager != null) {
@@ -43,6 +41,8 @@ public class ProxyFragment extends Fragment {
                         .commit();
             }
         }
+
+        mOnResultListener.onActivityResult(requestCode, resultCode, data);
 
         super.onActivityResult(requestCode, resultCode, data);
     }

@@ -1,4 +1,5 @@
 apply plugin: 'com.android.library'
+apply plugin: 'maven'
 apply plugin: 'com.novoda.bintray-release'
 
 android {
@@ -16,11 +17,30 @@ dependencies {
     implementation 'androidx.appcompat:appcompat:1.1.0'
 }
 
+/**
+ * 本地发布
+ */
+uploadArchives {
+    repositories.mavenDeployer {
+        // 本地仓库路径
+        repository(url: 'file:///Users/chenpeng/Desktop/Repositories/')
+//        repository(url: 'file:///Users/simple/Desktop/Repositories/')
+        // 唯一标识
+        pom.groupId = 'com.simple'
+        // 项目名称
+        pom.artifactId = 'ActivityResultProxy'
+        // 版本号
+        pom.version = '1.0.5'
+        //
+        pom.packaging = "aar"
+    }
+}
+
 publish {
     userOrg = 'simplepeng'
     groupId = 'com.simple'
     artifactId = 'ActivityResultProxy'
-    publishVersion = '1.0.4'
+    publishVersion = '1.0.5'
     desc = 'onActivityResult simplify'
     website = 'https://github.com/simplepeng/ActivityResultProxy'
 }

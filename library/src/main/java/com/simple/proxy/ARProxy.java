@@ -4,10 +4,10 @@ import android.content.ComponentName;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
-import android.os.IBinder;
 import android.os.Parcelable;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.fragment.app.FragmentActivity;
 import androidx.fragment.app.FragmentManager;
 
@@ -34,8 +34,12 @@ public class ARProxy {
     }
 
     public void getResult(int requestCode, OnResultListener listener) {
+        if (listener == null){
+            throw new NullPointerException("OnResultListener can not be null");
+        }
+
         if (mIntent.getComponent() == null) {
-            throw new NullPointerException("navTo method no call");
+            throw new NullPointerException("navTo method is not called");
         }
 
         final FragmentActivity withActivity = mActivity;
