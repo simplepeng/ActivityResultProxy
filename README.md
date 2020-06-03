@@ -1,6 +1,6 @@
 ## 简介
 
-* 这是简化Activity获取返回值startActivityForResult 写法的库
+* 这是一个简化获取跳转Activity获取返回值的库
 
 ## 引入依赖
 
