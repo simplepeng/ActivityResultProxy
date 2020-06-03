@@ -1,6 +1,5 @@
 package com.simple.proxy;
 
-import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
@@ -8,7 +7,7 @@ import android.os.Bundle;
 import android.os.Parcelable;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
 import androidx.fragment.app.FragmentManager;
 
@@ -20,7 +19,7 @@ public class ARProxy {
     private FragmentActivity mActivity;
     private Intent mIntent;
 
-    public ARProxy(Context context, Class<?> clazz) {
+    private ARProxy(Context context, Class<?> clazz) {
         this.mActivity = ((FragmentActivity) context);
         this.mIntent = new Intent(context, clazz);
     }
@@ -33,6 +32,8 @@ public class ARProxy {
     }
 
     public void startActivity() {
+        if (mActivity == null) return;
+
         mActivity.startActivity(mIntent);
     }
 
@@ -45,21 +46,25 @@ public class ARProxy {
             throw new NullPointerException("navTo method is not called");
         }
 
-        final FragmentActivity withActivity = mActivity;
         if (mActivity == null) return;
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1) {
             if (mActivity.isDestroyed()) return;
         }
         if (mActivity.isFinishing()) return;
 
-        FragmentManager manager = withActivity.getSupportFragmentManager();
+        FragmentManager manager = mActivity.getSupportFragmentManager();
 
-        ProxyFragment fragment = new ProxyFragment(mIntent, requestCode, listener);
-
-        manager.beginTransaction()
-                .add(fragment, ProxyFragment.TAG)
-                .commitAllowingStateLoss();
-        manager.executePendingTransactions();
+        ProxyFragment fragment;
+        Fragment tagFragment = manager.findFragmentByTag(ProxyFragment.TAG);
+        if (tagFragment == null) {
+            fragment = new ProxyFragment();
+            manager.beginTransaction()
+                    .add(fragment, ProxyFragment.TAG)
+                    .commitNow();
+        } else {
+            fragment = ((ProxyFragment) tagFragment);
+        }
+        fragment.startActivityForResult(requestCode, mIntent, listener);
     }
 
     //31 methods
