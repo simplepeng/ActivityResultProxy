@@ -44,7 +44,6 @@ public class MainActivity extends AppCompatActivity {
                 .putExtra("name", "simple")
                 .putExtra("age", 26)
                 .putExtra("man", true)
-//                .startActivity();
                 .startActivityForResult(REQUEST_CODE, new OnResultListener() {
                     @Override
                     public void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -58,6 +57,7 @@ public class MainActivity extends AppCompatActivity {
                                 extras.getBoolean("isLogin")));
                     }
                 });
+//                .startActivity();
     }
 
 
