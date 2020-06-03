@@ -23,9 +23,8 @@ public class LoginHelper {
             return;
         }
 
-        ARProxy.with(activity)
-                .navTo(LoginActivity.class)
-                .getResult(LOGIN_REQUEST_CODE, new OnResultListener() {
+        ARProxy.navTo(activity, LoginActivity.class)
+                .startActivityForResult(LOGIN_REQUEST_CODE, new OnResultListener() {
                     @Override
                     public void onActivityResult(int requestCode, int resultCode, Intent data) {
                         if (requestCode != LOGIN_REQUEST_CODE || resultCode != Activity.RESULT_OK

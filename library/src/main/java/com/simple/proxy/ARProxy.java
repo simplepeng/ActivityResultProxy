@@ -1,6 +1,7 @@
 package com.simple.proxy;
 
 import android.content.ComponentName;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
@@ -19,22 +20,24 @@ public class ARProxy {
     private FragmentActivity mActivity;
     private Intent mIntent;
 
-    private ARProxy(FragmentActivity activity) {
-        mActivity = activity;
-        mIntent = new Intent();
+    public ARProxy(Context context, Class<?> clazz) {
+        this.mActivity = ((FragmentActivity) context);
+        this.mIntent = new Intent(context, clazz);
     }
 
-    public static ARProxy with(FragmentActivity activity) {
-        return new ARProxy(activity);
+    public static ARProxy navTo(Context context, Class<?> clazz) {
+        if (!(context instanceof FragmentActivity)) {
+            throw new IllegalArgumentException("context must be extends FragmentActivity");
+        }
+        return new ARProxy(context, clazz);
     }
 
-    public ARProxy navTo(Class<?> cls) {
-        mIntent.setComponent(new ComponentName(mActivity, cls));
-        return this;
+    public void startActivity() {
+        mActivity.startActivity(mIntent);
     }
 
-    public void getResult(int requestCode, OnResultListener listener) {
-        if (listener == null){
+    public void startActivityForResult(int requestCode, OnResultListener listener) {
+        if (listener == null) {
             throw new NullPointerException("OnResultListener can not be null");
         }
 
@@ -50,7 +53,6 @@ public class ARProxy {
         if (mActivity.isFinishing()) return;
 
         FragmentManager manager = withActivity.getSupportFragmentManager();
-        if (manager == null) return;
 
         ProxyFragment fragment = new ProxyFragment(mIntent, requestCode, listener);
 

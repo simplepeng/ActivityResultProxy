@@ -37,13 +37,15 @@ public class MainActivity extends AppCompatActivity {
 
         Intent intent = new Intent(MainActivity.this, ToActivity.class);
         intent.putExtra("name", "simple");
+//        startActivityForResult();
 
-        ARProxy.with(MainActivity.this)
-                .navTo(ToActivity.class)
-                .putExtra("name","simple")
-                .putExtra("age",26)
-                .putExtra("man",true)
-                .getResult(REQUEST_CODE, new OnResultListener() {
+//        new ARProxy(this,ToActivity.class)
+        ARProxy.navTo(this, ToActivity.class)
+                .putExtra("name", "simple")
+                .putExtra("age", 26)
+                .putExtra("man", true)
+//                .startActivity();
+                .startActivityForResult(REQUEST_CODE, new OnResultListener() {
                     @Override
                     public void onActivityResult(int requestCode, int resultCode, Intent data) {
                         if (requestCode != REQUEST_CODE || resultCode != Activity.RESULT_OK ||
