@@ -1,49 +1,36 @@
 package com.simple.proxy;
 
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
 
 public class ProxyFragment extends Fragment {
 
     static final String TAG = "ProxyFragment";
 
-    private Intent mIntent;
-    private int mRequestCode;
     private OnResultListener mOnResultListener;
 
-    ProxyFragment(Intent intent, int requestCode, OnResultListener listener) {
-        this.mIntent = intent;
-        this.mRequestCode = requestCode;
-        this.mOnResultListener = listener;
+    public ProxyFragment() {
     }
 
     @Override
-    public void onAttach(Context context) {
-        super.onAttach(context);
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setRetainInstance(true);
+    }
 
-        startActivityForResult(mIntent, mRequestCode);
+    void startActivityForResult(int requestCode, Intent intent, OnResultListener listener) {
+        this.mOnResultListener = listener;
+        this.startActivityForResult(intent, requestCode);
     }
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
-//        super.onActivityResult(requestCode, resultCode, data);
-
-        FragmentManager manager = getFragmentManager();
-        if (manager != null) {
-            Fragment tag = manager.findFragmentByTag(TAG);
-            if (tag != null) {
-                manager.beginTransaction()
-                        .remove(tag)
-                        .commit();
-            }
+        if (mOnResultListener != null) {
+            mOnResultListener.onActivityResult(requestCode, resultCode, data);
         }
-
-        mOnResultListener.onActivityResult(requestCode, resultCode, data);
-
         super.onActivityResult(requestCode, resultCode, data);
     }
 

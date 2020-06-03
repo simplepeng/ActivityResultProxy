@@ -1,7 +1,6 @@
 package com.simple.proxy;
 
 import android.content.Intent;
-
 import androidx.annotation.Nullable;
 
 public interface OnResultListener {

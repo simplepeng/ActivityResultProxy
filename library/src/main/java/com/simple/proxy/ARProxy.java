@@ -1,13 +1,13 @@
 package com.simple.proxy;
 
-import android.content.ComponentName;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Parcelable;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
 import androidx.fragment.app.FragmentManager;
 
@@ -19,22 +19,26 @@ public class ARProxy {
     private FragmentActivity mActivity;
     private Intent mIntent;
 
-    private ARProxy(FragmentActivity activity) {
-        mActivity = activity;
-        mIntent = new Intent();
+    private ARProxy(Context context, Class<?> clazz) {
+        this.mActivity = ((FragmentActivity) context);
+        this.mIntent = new Intent(context, clazz);
     }
 
-    public static ARProxy with(FragmentActivity activity) {
-        return new ARProxy(activity);
+    public static ARProxy navTo(Context context, Class<?> clazz) {
+        if (!(context instanceof FragmentActivity)) {
+            throw new IllegalArgumentException("context must be extends FragmentActivity");
+        }
+        return new ARProxy(context, clazz);
     }
 
-    public ARProxy navTo(Class<?> cls) {
-        mIntent.setComponent(new ComponentName(mActivity, cls));
-        return this;
+    public void startActivity() {
+        if (mActivity == null) return;
+
+        mActivity.startActivity(mIntent);
     }
 
-    public void getResult(int requestCode, OnResultListener listener) {
-        if (listener == null){
+    public void startActivityForResult(int requestCode, OnResultListener listener) {
+        if (listener == null) {
             throw new NullPointerException("OnResultListener can not be null");
         }
 
@@ -42,22 +46,25 @@ public class ARProxy {
             throw new NullPointerException("navTo method is not called");
         }
 
-        final FragmentActivity withActivity = mActivity;
         if (mActivity == null) return;
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1) {
             if (mActivity.isDestroyed()) return;
         }
         if (mActivity.isFinishing()) return;
 
-        FragmentManager manager = withActivity.getSupportFragmentManager();
-        if (manager == null) return;
+        FragmentManager manager = mActivity.getSupportFragmentManager();
 
-        ProxyFragment fragment = new ProxyFragment(mIntent, requestCode, listener);
-
-        manager.beginTransaction()
-                .add(fragment, ProxyFragment.TAG)
-                .commitAllowingStateLoss();
-        manager.executePendingTransactions();
+        ProxyFragment fragment;
+        Fragment tagFragment = manager.findFragmentByTag(ProxyFragment.TAG);
+        if (tagFragment == null) {
+            fragment = new ProxyFragment();
+            manager.beginTransaction()
+                    .add(fragment, ProxyFragment.TAG)
+                    .commitNow();
+        } else {
+            fragment = ((ProxyFragment) tagFragment);
+        }
+        fragment.startActivityForResult(requestCode, mIntent, listener);
     }
 
     //31 methods
