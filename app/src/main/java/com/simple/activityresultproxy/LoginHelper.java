@@ -1,12 +1,10 @@
 package com.simple.activityresultproxy;
 
-import android.app.Activity;
 import android.content.Intent;
 
 import androidx.fragment.app.FragmentActivity;
 
 import com.simple.proxy.ARProxy;
-import com.simple.proxy.OnResultListener;
 
 public class LoginHelper {
 
@@ -24,11 +22,10 @@ public class LoginHelper {
         }
 
         ARProxy.navTo(activity, LoginActivity.class)
-                .startActivityForResult(LOGIN_REQUEST_CODE, new OnResultListener() {
+                .startActivityForResult(LOGIN_REQUEST_CODE, new ARProxy.OnResultListener() {
                     @Override
-                    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-                        if (requestCode != LOGIN_REQUEST_CODE || resultCode != Activity.RESULT_OK
-                                || data == null) return;
+                    public void onActivityResult(Intent data) {
+                        if (data == null) return;
 
                         UserBean user = data.getParcelableExtra("user");
                         if (user == null) return;

@@ -1,16 +1,14 @@
 package com.simple.activityresultproxy;
 
-import android.app.Activity;
 import android.content.Intent;
-
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
 
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
+
 import com.simple.proxy.ARProxy;
-import com.simple.proxy.OnResultListener;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -44,13 +42,12 @@ public class MainActivity extends AppCompatActivity {
                 .putExtra("name", "simple")
                 .putExtra("age", 26)
                 .putExtra("man", true)
-                .startActivityForResult(REQUEST_CODE, new OnResultListener() {
+                .startActivityForResult(REQUEST_CODE, new ARProxy.OnResultListener() {
                     @Override
-                    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-                        if (requestCode != REQUEST_CODE || resultCode != Activity.RESULT_OK ||
-                                data == null) return;
-                        mTvRequestCode.setText(String.format("requestCode : %s", requestCode));
-                        mTvResultCode.setText(String.format("resultCode  :%s", resultCode));
+                    public void onActivityResult(Intent data) {
+                        if (data == null) return;
+//                        mTvRequestCode.setText(String.format("requestCode : %s", requestCode));
+//                        mTvResultCode.setText(String.format("resultCode  :%s", resultCode));
 
                         Bundle extras = data.getExtras();
                         mTvData.setText(String.format("data : %s-%s", extras.getString("username"),
