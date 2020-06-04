@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.os.Parcelable;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
 import androidx.fragment.app.FragmentManager;
@@ -37,7 +38,7 @@ public class ARProxy {
         mActivity.startActivity(mIntent);
     }
 
-    public void startActivityForResult(int requestCode, OnResultListener listener) {
+    public void startActivityForResult(int requestCode, ARProxy.OnResultListener listener) {
         if (listener == null) {
             throw new NullPointerException("OnResultListener can not be null");
         }
@@ -216,5 +217,9 @@ public class ARProxy {
     public ARProxy putExtras(@NonNull Bundle extras) {
         mIntent.putExtras(extras);
         return this;
+    }
+
+    public interface OnResultListener {
+        void onActivityResult(@Nullable Intent data);
     }
 }
