@@ -30,7 +30,7 @@ uploadArchives {
         // 项目名称
         pom.artifactId = 'ActivityResultProxy'
         // 版本号
-        pom.version = '1.0.5'
+        pom.version = '1.0.7'
         //
         pom.packaging = "aar"
     }
@@ -40,7 +40,7 @@ publish {
     userOrg = 'simplepeng'
     groupId = 'com.simple'
     artifactId = 'ActivityResultProxy'
-    publishVersion = '1.0.6'
+    publishVersion = '1.0.7'
     desc = 'onActivityResult simplify'
     website = 'https://github.com/simplepeng/ActivityResultProxy'
 }
