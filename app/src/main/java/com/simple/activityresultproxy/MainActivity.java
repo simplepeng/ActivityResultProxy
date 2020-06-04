@@ -2,6 +2,7 @@ package com.simple.activityresultproxy;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 
@@ -44,7 +45,7 @@ public class MainActivity extends AppCompatActivity {
                 .putExtra("man", true)
                 .startActivityForResult(REQUEST_CODE, new ARProxy.OnResultListener() {
                     @Override
-                    public void onActivityResult(Intent data) {
+                    public void onActivityResult(@Nullable Intent data) {
                         if (data == null) return;
 //                        mTvRequestCode.setText(String.format("requestCode : %s", requestCode));
 //                        mTvResultCode.setText(String.format("resultCode  :%s", resultCode));
@@ -67,4 +68,12 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        Log.d("onActivityResult", "requestCode = " + requestCode + "--resultCode = " + resultCode);
+        if (data != null && data.getExtras() != null) {
+            Log.d("onActivityResult", "data = " + data.getExtras().toString());
+        }
+    }
 }

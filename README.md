@@ -7,7 +7,7 @@
 * 从1.0.3版本开始使用androidx
 
 ```groovy
-implementation 'com.simple:ActivityResultProxy:1.0.6'
+implementation 'com.simple:ActivityResultProxy:1.0.7'
 ```
 
 ## 使用方法
@@ -15,9 +15,9 @@ implementation 'com.simple:ActivityResultProxy:1.0.6'
 ```java
         ARProxy.navTo(this, ToActivity.class)
                 .putExtra("name", "simple")
-                .startActivityForResult(REQUEST_CODE, new OnResultListener() {
+                .startActivityForResult(REQUEST_CODE, new ARProxy.OnResultListener() {
                     @Override
-                    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+                    public void onActivityResult(@Nullable Intent data) {
 
                     }
                 });
@@ -48,9 +48,9 @@ public class LoginHelper {
         }
         
         ARProxy.navTo(activity, LoginActivity.class)
-                .startActivityForResult(LOGIN_REQUEST_CODE, new OnResultListener() {
+                .startActivityForResult(LOGIN_REQUEST_CODE, new ARProxy.OnResultListener() {
                     @Override
-                    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+                    public void onActivityResult(@Nullable Intent data) {
                         if (requestCode != LOGIN_REQUEST_CODE || resultCode != Activity.RESULT_OK
                                 || data == null) return;
 
@@ -90,6 +90,7 @@ LoginHelper.isLogin(MainActivity.this, new LoginHelper.OnLoginListener() {
 
 ## 版本迭代
 
+* v1.0.7：修改api调用方式
 * v1.0.6：修改api调用方式，模仿`RxPermission`的写法
 * v1.0.5：修复`连续多次调用不会回调的bug`
 * v1.0.4：修复当`Host Activity finished`导致崩溃的bug
