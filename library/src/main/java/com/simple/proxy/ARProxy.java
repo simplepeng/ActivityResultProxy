@@ -220,6 +220,6 @@ public class ARProxy {
     }
 
     public interface OnResultListener {
-        void onActivityResult(@Nullable Intent data);
+        void onActivityResult(int requestCode, int resultCode, @Nullable Intent data);
     }
 }

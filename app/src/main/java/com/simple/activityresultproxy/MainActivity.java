@@ -45,10 +45,10 @@ public class MainActivity extends AppCompatActivity {
                 .putExtra("man", true)
                 .startActivityForResult(REQUEST_CODE, new ARProxy.OnResultListener() {
                     @Override
-                    public void onActivityResult(@Nullable Intent data) {
+                    public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
                         if (data == null) return;
-//                        mTvRequestCode.setText(String.format("requestCode : %s", requestCode));
-//                        mTvResultCode.setText(String.format("resultCode  :%s", resultCode));
+                        mTvRequestCode.setText(String.format("requestCode : %s", requestCode));
+                        mTvResultCode.setText(String.format("resultCode  :%s", resultCode));
 
                         Bundle extras = data.getExtras();
                         mTvData.setText(String.format("data : %s-%s", extras.getString("username"),
