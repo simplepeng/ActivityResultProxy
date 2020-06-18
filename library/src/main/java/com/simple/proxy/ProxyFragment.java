@@ -33,7 +33,7 @@ public class ProxyFragment extends Fragment {
     public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         if (mOnResultListener != null && requestCode == mRequestCode
                 && resultCode == Activity.RESULT_OK) {
-            mOnResultListener.onActivityResult(data);
+            mOnResultListener.onActivityResult(requestCode, resultCode, data);
         }
         super.onActivityResult(requestCode, resultCode, data);
     }
