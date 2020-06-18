@@ -17,7 +17,7 @@ implementation 'com.simple:ActivityResultProxy:1.0.7'
                 .putExtra("name", "simple")
                 .startActivityForResult(REQUEST_CODE, new ARProxy.OnResultListener() {
                     @Override
-                    public void onActivityResult(@Nullable Intent data) {
+                    public void onActivityResult(int requestCode, int resultCode,@Nullable Intent data) {
 
                     }
                 });
@@ -50,7 +50,7 @@ public class LoginHelper {
         ARProxy.navTo(activity, LoginActivity.class)
                 .startActivityForResult(LOGIN_REQUEST_CODE, new ARProxy.OnResultListener() {
                     @Override
-                    public void onActivityResult(@Nullable Intent data) {
+                    public void onActivityResult(int requestCode, int resultCode,@Nullable Intent data) {
                         if (requestCode != LOGIN_REQUEST_CODE || resultCode != Activity.RESULT_OK
                                 || data == null) return;
 
