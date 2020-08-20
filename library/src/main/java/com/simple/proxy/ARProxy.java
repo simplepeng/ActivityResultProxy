@@ -25,11 +25,23 @@ public class ARProxy {
         this.mIntent = new Intent(context, clazz);
     }
 
+    private ARProxy(Context context, Intent intent) {
+        this.mActivity = ((FragmentActivity) context);
+        this.mIntent = intent;
+    }
+
     public static ARProxy navTo(Context context, Class<?> clazz) {
         if (!(context instanceof FragmentActivity)) {
             throw new IllegalArgumentException("context must be extends FragmentActivity");
         }
         return new ARProxy(context, clazz);
+    }
+
+    public static ARProxy navTo(Context context, Intent intent) {
+        if (!(context instanceof FragmentActivity)) {
+            throw new IllegalArgumentException("context must be extends FragmentActivity");
+        }
+        return new ARProxy(context, intent);
     }
 
     public void startActivity() {
@@ -43,9 +55,9 @@ public class ARProxy {
             throw new NullPointerException("OnResultListener can not be null");
         }
 
-        if (mIntent.getComponent() == null) {
-            throw new NullPointerException("navTo method is not called");
-        }
+//        if (mIntent.getComponent() == null) {
+//            throw new NullPointerException("navTo method is not called");
+//        }
 
         if (mActivity == null) return;
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1) {
