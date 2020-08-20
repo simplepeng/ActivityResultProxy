@@ -7,7 +7,7 @@
 * 从1.0.3版本开始使用androidx
 
 ```groovy
-implementation 'com.simple:ActivityResultProxy:1.0.7'
+implementation 'com.simple:ActivityResultProxy:1.0.8'
 ```
 
 ## 使用方法
