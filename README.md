@@ -90,6 +90,7 @@ LoginHelper.isLogin(MainActivity.this, new LoginHelper.OnLoginListener() {
 
 ## 版本迭代
 
+* v1.0.8：增加`navTo Intent`隐式意图跳转
 * v1.0.7：修改api调用方式
 * v1.0.6：修改api调用方式，模仿`RxPermission`的写法
 * v1.0.5：修复`连续多次调用不会回调的bug`
