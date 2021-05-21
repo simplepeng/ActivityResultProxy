@@ -4,23 +4,32 @@
 
 ## 引入依赖
 
+```groovy
+allprojects {
+	repositories {
+		...
+		maven { url 'https://jitpack.io' }
+	}
+}
+```
+
 * 从1.0.3版本开始使用androidx
 
 ```groovy
-implementation 'com.simple:ActivityResultProxy:1.0.8'
+implementation 'com.github.simplepeng:ActivityResultProxy:v1.0.9'
 ```
 
 ## 使用方法
 
 ```java
-        ARProxy.navTo(this, ToActivity.class)
-                .putExtra("name", "simple")
-                .startActivityForResult(REQUEST_CODE, new ARProxy.OnResultListener() {
-                    @Override
-                    public void onActivityResult(int requestCode, int resultCode,@Nullable Intent data) {
+ARProxy.navTo(this, ToActivity.class)
+        .putExtra("name", "simple")
+        .startActivityForResult(REQUEST_CODE, new ARProxy.OnResultListener() {
+            @Override
+            public void onActivityResult(int requestCode, int resultCode,@Nullable Intent data) {
 
-                    }
-                });
+            }
+        });
 ```
 
 ## 高级使用
@@ -89,6 +98,8 @@ LoginHelper.isLogin(MainActivity.this, new LoginHelper.OnLoginListener() {
 ```
 
 ## 版本迭代
+
+* v1.0.9：`commitNow`替换为`commitNowAllowingStateLoss`，解决依附的Activity销毁重建后不能回调的bug
 
 * v1.0.8：增加`navTo Intent`隐式意图跳转
 * v1.0.7：修改api调用方式
