@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Parcelable;
+import android.util.SparseArray;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -14,11 +15,15 @@ import androidx.fragment.app.FragmentManager;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 public class ARProxy {
 
     private FragmentActivity mActivity;
     private Intent mIntent;
+
+    public static final SparseArray<ARProxy.OnResultListener> mListenerMap = new SparseArray<>();
 
     private ARProxy(Context context, Class<?> clazz) {
         this.mActivity = ((FragmentActivity) context);
@@ -77,7 +82,9 @@ public class ARProxy {
         } else {
             fragment = ((ProxyFragment) tagFragment);
         }
-        fragment.startActivityForResult(requestCode, mIntent, listener);
+
+        mListenerMap.put(requestCode, listener);
+        fragment.startActivityForResult(requestCode, mIntent);
     }
 
     //31 methods

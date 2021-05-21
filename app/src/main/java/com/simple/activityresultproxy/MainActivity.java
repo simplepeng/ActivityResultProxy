@@ -15,6 +15,8 @@ import com.simple.proxy.ARProxy;
 
 public class MainActivity extends AppCompatActivity {
 
+    private final String TAG = "MainActivity";
+
     private final int REQUEST_CODE = 110;
     private final int REQUEST_CODE_CHOICE_IMAGE = 111;
 
@@ -37,13 +39,9 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void go(View view) {
-//        finish();
-
         Intent intent = new Intent(MainActivity.this, ToActivity.class);
         intent.putExtra("name", "simple");
-//        startActivityForResult();
 
-//        new ARProxy(this,ToActivity.class)
         ARProxy.navTo(this, ToActivity.class)
                 .putExtra("name", "simple")
                 .putExtra("age", 26)
@@ -52,15 +50,24 @@ public class MainActivity extends AppCompatActivity {
                     @Override
                     public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
                         if (data == null) return;
-                        mTvRequestCode.setText(String.format("requestCode : %s", requestCode));
-                        mTvResultCode.setText(String.format("resultCode  :%s", resultCode));
+
+                        String reqCode = String.format("requestCode : %s", requestCode);
+                        String resultText = String.format("resultCode  :%s", resultCode);
+
+                        mTvRequestCode.setText(reqCode);
+                        mTvResultCode.setText(resultText);
 
                         Bundle extras = data.getExtras();
-                        mTvData.setText(String.format("data : %s-%s", extras.getString("username"),
-                                extras.getBoolean("isLogin")));
+                        String dataText = String.format("data : %s-%s", extras.getString("username"),
+                                extras.getBoolean("isLogin"));
+
+                        mTvData.setText(dataText);
+
+                        Log.d(TAG, reqCode);
+                        Log.d(TAG, resultText);
+                        Log.d(TAG, dataText);
                     }
                 });
-//                .startActivity();
     }
 
 

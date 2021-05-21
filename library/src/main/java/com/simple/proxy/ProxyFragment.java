@@ -11,9 +11,6 @@ public class ProxyFragment extends Fragment {
 
     static final String TAG = "ProxyFragment";
 
-    private ARProxy.OnResultListener mOnResultListener;
-    private int mRequestCode = -1;
-
     public ProxyFragment() {
     }
 
@@ -23,17 +20,15 @@ public class ProxyFragment extends Fragment {
         setRetainInstance(true);
     }
 
-    void startActivityForResult(int requestCode, Intent intent, ARProxy.OnResultListener listener) {
-        this.mOnResultListener = listener;
-        this.mRequestCode = requestCode;
+    void startActivityForResult(int requestCode, Intent intent) {
         this.startActivityForResult(intent, requestCode);
     }
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-        if (mOnResultListener != null && requestCode == mRequestCode
-                && resultCode == Activity.RESULT_OK) {
-            mOnResultListener.onActivityResult(requestCode, resultCode, data);
+        ARProxy.OnResultListener listener = ARProxy.mListenerMap.get(requestCode);
+        if (listener != null && resultCode == Activity.RESULT_OK) {
+            listener.onActivityResult(requestCode, resultCode, data);
         }
         super.onActivityResult(requestCode, resultCode, data);
     }
