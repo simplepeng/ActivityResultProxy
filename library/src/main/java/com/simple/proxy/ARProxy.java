@@ -78,7 +78,8 @@ public class ARProxy {
             fragment = new ProxyFragment();
             manager.beginTransaction()
                     .add(fragment, ProxyFragment.TAG)
-                    .commitNow();
+                    .commitNowAllowingStateLoss();
+//                    .commitNow();
         } else {
             fragment = ((ProxyFragment) tagFragment);
         }
