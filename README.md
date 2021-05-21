@@ -4,6 +4,8 @@
 
 ## 引入依赖
 
+[![](https://jitpack.io/v/simplepeng/ActivityResultProxy.svg)](https://jitpack.io/#simplepeng/ActivityResultProxy)
+
 ```groovy
 allprojects {
 	repositories {
