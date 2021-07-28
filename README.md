@@ -18,7 +18,7 @@ allprojects {
 * 从1.0.3版本开始使用androidx
 
 ```groovy
-implementation 'com.github.simplepeng:ActivityResultProxy:v1.0.9'
+implementation 'com.github.simplepeng:ActivityResultProxy:v1.1.0'
 ```
 
 ## 使用方法
@@ -100,6 +100,8 @@ LoginHelper.isLogin(MainActivity.this, new LoginHelper.OnLoginListener() {
 ```
 
 ## 版本迭代
+
+* v1.1.0：去掉`result==Activity.RESULT_OK`的判断，有些时候可能需要用到`CANCELED`
 
 * v1.0.9：`commitNow`替换为`commitNowAllowingStateLoss`，解决依附的Activity销毁重建后不能回调的bug
 
