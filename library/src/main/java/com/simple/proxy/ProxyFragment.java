@@ -1,6 +1,5 @@
 package com.simple.proxy;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 
@@ -27,7 +26,7 @@ public class ProxyFragment extends Fragment {
     @Override
     public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         ARProxy.OnResultListener listener = ARProxy.mListenerMap.get(requestCode);
-        if (listener != null && resultCode == Activity.RESULT_OK) {
+        if (listener != null) {
             listener.onActivityResult(requestCode, resultCode, data);
         }
         super.onActivityResult(requestCode, resultCode, data);
