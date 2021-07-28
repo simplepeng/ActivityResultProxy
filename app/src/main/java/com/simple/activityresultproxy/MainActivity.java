@@ -46,27 +46,24 @@ public class MainActivity extends AppCompatActivity {
                 .putExtra("name", "simple")
                 .putExtra("age", 26)
                 .putExtra("man", true)
-                .startActivityForResult(REQUEST_CODE, new ARProxy.OnResultListener() {
-                    @Override
-                    public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-                        if (data == null) return;
+                .startActivityForResult(REQUEST_CODE, (requestCode, resultCode, data) -> {
+                    if (data == null) return;
 
-                        String reqCode = String.format("requestCode : %s", requestCode);
-                        String resultText = String.format("resultCode  :%s", resultCode);
+                    String reqCode = String.format("requestCode : %s", requestCode);
+                    String resultText = String.format("resultCode  :%s", resultCode);
 
-                        mTvRequestCode.setText(reqCode);
-                        mTvResultCode.setText(resultText);
+                    mTvRequestCode.setText(reqCode);
+                    mTvResultCode.setText(resultText);
 
-                        Bundle extras = data.getExtras();
-                        String dataText = String.format("data : %s-%s", extras.getString("username"),
-                                extras.getBoolean("isLogin"));
+                    Bundle extras = data.getExtras();
+                    String dataText = String.format("data : %s-%s", extras.getString("username"),
+                            extras.getBoolean("isLogin"));
 
-                        mTvData.setText(dataText);
+                    mTvData.setText(dataText);
 
-                        Log.d(TAG, reqCode);
-                        Log.d(TAG, resultText);
-                        Log.d(TAG, dataText);
-                    }
+                    Log.d(TAG, reqCode);
+                    Log.d(TAG, resultText);
+                    Log.d(TAG, dataText);
                 });
     }
 
