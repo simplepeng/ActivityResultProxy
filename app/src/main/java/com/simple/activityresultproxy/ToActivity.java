@@ -6,6 +6,7 @@ import android.os.Bundle;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 
@@ -30,5 +31,17 @@ public class ToActivity extends AppCompatActivity {
         data.putExtra("isLogin", true);
         setResult(RESULT_OK, data);
         finish();
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        Log.d("ToActivity", "ToActivity onDestroy");
+    }
+
+    @Override
+    protected void finalize() throws Throwable {
+        super.finalize();
+        Log.d("ToActivity", "ToActivity finalize");
     }
 }
