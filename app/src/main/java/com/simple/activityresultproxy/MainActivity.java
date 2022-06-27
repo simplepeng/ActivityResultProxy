@@ -64,6 +64,7 @@ public class MainActivity extends AppCompatActivity {
                     Log.d(TAG, reqCode);
                     Log.d(TAG, resultText);
                     Log.d(TAG, dataText);
+
                 });
     }
 
@@ -110,5 +111,17 @@ public class MainActivity extends AppCompatActivity {
             Uri uri = data.getData();
             mIvImage.setImageURI(uri);
         }
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        Log.d("MainActivity", "MainActivity onDestroy");
+    }
+
+    @Override
+    protected void finalize() throws Throwable {
+        super.finalize();
+        Log.d("MainActivity", "MainActivity finalize");
     }
 }
