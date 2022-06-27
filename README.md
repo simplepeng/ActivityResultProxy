@@ -1,24 +1,19 @@
 ## 简介
 
-* 这是一个简化获取跳转Activity获取返回值的库
+这是一个简化获取跳转Activity获取返回值的库
 
 ## 引入依赖
 
 [![](https://jitpack.io/v/simplepeng/ActivityResultProxy.svg)](https://jitpack.io/#simplepeng/ActivityResultProxy)
 
 ```groovy
-allprojects {
-	repositories {
-		...
-		maven { url 'https://jitpack.io' }
-	}
-}
+maven { url 'https://jitpack.io' }
 ```
 
-* 从1.0.3版本开始使用androidx
+从1.0.3版本开始使用androidx
 
 ```groovy
-implementation 'com.github.simplepeng:ActivityResultProxy:v1.1.0'
+implementation 'com.github.simplepeng:ActivityResultProxy:v1.1.1'
 ```
 
 ## 使用方法
@@ -40,7 +35,7 @@ App中经常碰到一些情况需要判断是否登录过，再做一些操作�
 
 当然封装一个全局的接口回调拦截器也是一种很好的做法。
 
-* 封装一个LoginHelper
+封装一个LoginHelper
 
 ```java
 public class LoginHelper {
@@ -79,7 +74,7 @@ public class LoginHelper {
 }
 ```
 
-* 使用
+使用
 
 ```java
 LoginHelper.isLogin(MainActivity.this, new LoginHelper.OnLoginListener() {
@@ -101,6 +96,7 @@ LoginHelper.isLogin(MainActivity.this, new LoginHelper.OnLoginListener() {
 
 ## 版本迭代
 
+* v1.1.1：解决内存泄漏的问题
 * v1.1.0：去掉`result==Activity.RESULT_OK`的判断，有些时候可能需要用到`CANCELED`
 * v1.0.9：`commitNow`替换为`commitNowAllowingStateLoss`，解决依附的Activity销毁重建后不能回调的bug
 * v1.0.8：增加`navTo Intent`隐式意图跳转
