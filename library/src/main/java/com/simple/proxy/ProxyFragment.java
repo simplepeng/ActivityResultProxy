@@ -28,6 +28,7 @@ public class ProxyFragment extends Fragment {
         ARProxy.OnResultListener listener = ARProxy.mListenerMap.get(requestCode);
         if (listener != null) {
             listener.onActivityResult(requestCode, resultCode, data);
+            ARProxy.mListenerMap.delete(requestCode);
         }
         super.onActivityResult(requestCode, resultCode, data);
     }
