@@ -1,127 +1,116 @@
-package com.simple.activityresultproxy;
+package com.simple.activityresultproxy
 
-import android.content.Intent;
-import android.net.Uri;
-import android.os.Bundle;
-import android.util.Log;
-import android.view.View;
-import android.widget.ImageView;
-import android.widget.TextView;
+import android.content.Intent
+import android.os.Bundle
+import android.util.Log
+import android.view.View
+import android.widget.ImageView
+import android.widget.TextView
+import androidx.appcompat.app.AppCompatActivity
+import com.simple.activityresultproxy.LoginHelper.OnLoginListener
+import com.simple.proxy.ARProxy
+import com.simple.proxy.ARProxy.OnResultListener
 
-import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
+class MainActivity : AppCompatActivity() {
+    private val TAG = "MainActivity"
 
-import com.simple.proxy.ARProxy;
+    private val REQUEST_CODE = 110
+    private val REQUEST_CODE_CHOICE_IMAGE = 111
 
-public class MainActivity extends AppCompatActivity {
+    private var mTvRequestCode: TextView? = null
+    private var mTvResultCode: TextView? = null
+    private var mTvData: TextView? = null
+    private var mTvUser: TextView? = null
+    private var mIvImage: ImageView? = null
 
-    private final String TAG = "MainActivity";
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContentView(R.layout.activity_main)
 
-    private final int REQUEST_CODE = 110;
-    private final int REQUEST_CODE_CHOICE_IMAGE = 111;
-
-    private TextView mTvRequestCode;
-    private TextView mTvResultCode;
-    private TextView mTvData;
-    private TextView mTvUser;
-    private ImageView mIvImage;
-
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
-
-        mTvRequestCode = findViewById(R.id.tv_requestCode);
-        mTvResultCode = findViewById(R.id.tv_resuleCode);
-        mTvData = findViewById(R.id.tv_data);
-        mTvUser = findViewById(R.id.tv_user);
-        mIvImage = findViewById(R.id.ivImage);
+        mTvRequestCode = findViewById<TextView>(R.id.tv_requestCode)
+        mTvResultCode = findViewById<TextView>(R.id.tv_resuleCode)
+        mTvData = findViewById<TextView>(R.id.tv_data)
+        mTvUser = findViewById<TextView>(R.id.tv_user)
+        mIvImage = findViewById<ImageView>(R.id.ivImage)
     }
 
-    public void go(View view) {
-        Intent intent = new Intent(MainActivity.this, ToActivity.class);
-        intent.putExtra("name", "simple");
+    fun go(view: View?) {
+        val intent = Intent(this@MainActivity, ToActivity::class.java)
+        intent.putExtra("name", "simple")
 
-        ARProxy.navTo(this, ToActivity.class)
-                .putExtra("name", "simple")
-                .putExtra("age", 26)
-                .putExtra("man", true)
-                .startActivityForResult(REQUEST_CODE, (requestCode, resultCode, data) -> {
-                    if (data == null) return;
+        ARProxy.navTo(this, ToActivity::class.java)
+            .putExtra("name", "simple")
+            .putExtra("age", 26)
+            .putExtra("man", true)
+            .startActivityForResult(REQUEST_CODE, OnResultListener { requestCode: Int, resultCode: Int, data: Intent? ->
+                if (data == null) return@OnResultListener
+                val reqCode = String.format("requestCode : %s", requestCode)
+                val resultText = String.format("resultCode  :%s", resultCode)
 
-                    String reqCode = String.format("requestCode : %s", requestCode);
-                    String resultText = String.format("resultCode  :%s", resultCode);
+                mTvRequestCode!!.setText(reqCode)
+                mTvResultCode!!.setText(resultText)
 
-                    mTvRequestCode.setText(reqCode);
-                    mTvResultCode.setText(resultText);
+                val extras = data.getExtras()
+                val dataText = String.format(
+                    "data : %s-%s", extras!!.getString("username"),
+                    extras.getBoolean("isLogin")
+                )
 
-                    Bundle extras = data.getExtras();
-                    String dataText = String.format("data : %s-%s", extras.getString("username"),
-                            extras.getBoolean("isLogin"));
+                mTvData!!.setText(dataText)
 
-                    mTvData.setText(dataText);
-
-                    Log.d(TAG, reqCode);
-                    Log.d(TAG, resultText);
-                    Log.d(TAG, dataText);
-
-                });
+                Log.d(TAG, reqCode)
+                Log.d(TAG, resultText)
+                Log.d(TAG, dataText)
+            })
     }
 
 
-    public void login(View view) {
-        LoginHelper.isLogin(MainActivity.this, new LoginHelper.OnLoginListener() {
-            @Override
-            public void onLogin(UserBean user) {
-                mTvUser.setText(String.format("user : %s - %s", user.getName(), user.getPassword()));
+    fun login(view: View?) {
+        LoginHelper.isLogin(this@MainActivity, object : OnLoginListener {
+            override fun onLogin(user: UserBean) {
+                mTvUser!!.setText(String.format("user : %s - %s", user.getName(), user.getPassword()))
             }
-        });
+        })
     }
 
-    public void choiceImage(View view) {
-        Intent intent = new Intent();
-        intent.setType("image/*");
-        intent.setAction(Intent.ACTION_GET_CONTENT);
-//        startActivityForResult(Intent.createChooser(intent, "choice image"), REQUEST_CODE_CHOICE_IMAGE);
+    fun choiceImage(view: View?) {
+        val intent = Intent()
+        intent.setType("image/*")
+        intent.setAction(Intent.ACTION_GET_CONTENT)
 
-        ARProxy.navTo(this, intent)
-//                .startActivity();
-                .startActivityForResult(REQUEST_CODE_CHOICE_IMAGE, new ARProxy.OnResultListener() {
-                    @Override
-                    public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-                        if (requestCode == REQUEST_CODE_CHOICE_IMAGE && resultCode == RESULT_OK
-                                && data != null && data.getData() != null) {
-                            Uri uri = data.getData();
-                            mIvImage.setImageURI(uri);
-                        }
+        //        startActivityForResult(Intent.createChooser(intent, "choice image"), REQUEST_CODE_CHOICE_IMAGE);
+        ARProxy.navTo(this, intent) //                .startActivity();
+            .startActivityForResult(REQUEST_CODE_CHOICE_IMAGE, object : OnResultListener {
+                override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+                    if (requestCode == REQUEST_CODE_CHOICE_IMAGE && resultCode == RESULT_OK && data != null && data.getData() != null) {
+                        val uri = data.getData()
+                        mIvImage!!.setImageURI(uri)
                     }
-                });
+                }
+            })
     }
 
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        Log.d("onActivityResult", "requestCode = " + requestCode + "--resultCode = " + resultCode);
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        Log.d("onActivityResult", "requestCode = " + requestCode + "--resultCode = " + resultCode)
         if (data != null && data.getExtras() != null) {
-            Log.d("onActivityResult", "data = " + data.getExtras().toString());
+            Log.d("onActivityResult", "data = " + data.getExtras().toString())
         }
 
-        if (requestCode == REQUEST_CODE_CHOICE_IMAGE && resultCode == RESULT_OK
-                && data != null && data.getData() != null) {
-            Uri uri = data.getData();
-            mIvImage.setImageURI(uri);
+        if (requestCode == REQUEST_CODE_CHOICE_IMAGE && resultCode == RESULT_OK && data != null && data.getData() != null) {
+            val uri = data.getData()
+            mIvImage!!.setImageURI(uri)
         }
     }
 
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        Log.d("MainActivity", "MainActivity onDestroy");
+    override fun onDestroy() {
+        super.onDestroy()
+        Log.d("MainActivity", "MainActivity onDestroy")
     }
 
-    @Override
-    protected void finalize() throws Throwable {
-        super.finalize();
-        Log.d("MainActivity", "MainActivity finalize");
-    }
+//    @Throws(Throwable::class)
+//    protected fun finalize() {
+//        super.finalize()
+//        Log.d("MainActivity", "MainActivity finalize")
+//    }
 }
