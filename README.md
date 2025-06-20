@@ -13,7 +13,7 @@ maven { url 'https://jitpack.io' }
 从1.0.3版本开始使用androidx
 
 ```groovy
-implementation 'com.github.simplepeng:ActivityResultProxy:v1.1.1'
+implementation 'com.github.simplepeng:ActivityResultProxy:v1.2.0'
 ```
 
 ## 使用方法
@@ -27,6 +27,14 @@ ARProxy.navTo(this, ToActivity.class)
 
             }
         });
+```
+
+或
+
+```kotlin
+startActivityForResult(REQUEST_CODE, intent) { requestCode, resultCode, data ->
+    
+}
 ```
 
 ## 高级使用
@@ -94,8 +102,18 @@ LoginHelper.isLogin(MainActivity.this, new LoginHelper.OnLoginListener() {
 -keepnames class com.simple.proxy.** { *; }
 ```
 
+## 感谢各位大佬打赏🙇🙇🙇！
+
+您的支持是作者努力更新的动力。万水千山总是情，10.24我看行！
+
+| ![](https://raw.githubusercontent.com/simplepeng/merge_pay_code/refs/heads/master/qrcode_alipay.jpg) | ![](https://raw.githubusercontent.com/simplepeng/merge_pay_code/refs/heads/master/qrcode_wxpay.png) | ![](https://raw.githubusercontent.com/simplepeng/merge_pay_code/refs/heads/master/qrcode_qqpay.png) |
+| ------------------------------------------------------------ | ----- | ----- |
+
+[打赏链接](https://simplepeng.com/merge_pay_code/) | [赞助列表](https://simplepeng.com/Sponsor/)
+
 ## 版本迭代
 
+* v1.2.0：增加`kotlin`支持
 * v1.1.1：解决内存泄漏的问题
 * v1.1.0：去掉`result==Activity.RESULT_OK`的判断，有些时候可能需要用到`CANCELED`
 * v1.0.9：`commitNow`替换为`commitNowAllowingStateLoss`，解决依附的Activity销毁重建后不能回调的bug
