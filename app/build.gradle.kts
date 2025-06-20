@@ -39,7 +39,7 @@ dependencies {
     implementation("androidx.appcompat:appcompat:1.0.0")
     implementation("androidx.constraintlayout:constraintlayout:1.1.3")
 
-//    implementation project(':library')
-    implementation("com.github.simplepeng:ActivityResultProxy:v1.1.1")
+    implementation(project(":library"))
+//    implementation("com.github.simplepeng:ActivityResultProxy:v1.1.1")
     debugImplementation("com.squareup.leakcanary:leakcanary-android:2.9.1")
 }
