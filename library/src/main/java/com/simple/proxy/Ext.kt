@@ -9,9 +9,7 @@ fun Context.startActivityForResult(
     onActivityResult: (requestCode: Int, resultCode: Int, data: Intent?) -> Unit
 ) {
     ARProxy.navTo(this, intent)
-        .startActivityForResult(requestCode) { requestCode, resultCode, data ->
-            onActivityResult.invoke(requestCode, resultCode, data)
-        }
+        .startActivityForResult(requestCode, onActivityResult)
 }
 
 fun Context.startActivityForResult(
@@ -20,7 +18,24 @@ fun Context.startActivityForResult(
     onActivityResult: (requestCode: Int, resultCode: Int, data: Intent?) -> Unit
 ) {
     ARProxy.navTo(this, clazz)
-        .startActivityForResult(requestCode) { requestCode, resultCode, data ->
-            onActivityResult.invoke(requestCode, resultCode, data)
-        }
+        .startActivityForResult(requestCode, onActivityResult)
+}
+
+fun Context.navTo(
+    clazz: Class<*>
+): ARProxy {
+    return ARProxy.navTo(this, clazz)
+}
+
+fun Context.navTo(
+    intent: Intent,
+): ARProxy {
+    return ARProxy.navTo(this, intent)
+}
+
+fun ARProxy.startActivityForResult(
+    requestCode: Int,
+    onActivityResult: (requestCode: Int, resultCode: Int, data: Intent?) -> Unit
+) {
+    this.startActivityForResult(requestCode, onActivityResult)
 }
