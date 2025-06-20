@@ -15,11 +15,12 @@ afterEvaluate {
 }
 
 android {
-    compileSdkVersion 31
+    namespace = "com.simple.proxy"
+    compileSdkVersion 35
 
     defaultConfig {
-        minSdkVersion 14
-        targetSdk 31
+        minSdkVersion 21
+        targetSdk 35
     }
 
 }
