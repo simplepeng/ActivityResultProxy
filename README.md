@@ -29,7 +29,7 @@ ARProxy.navTo(this, ToActivity.class)
         });
 ```
 
-或
+或在`Kotlin`中
 
 ```kotlin
 startActivityForResult(REQUEST_CODE, intent) { requestCode, resultCode, data ->
